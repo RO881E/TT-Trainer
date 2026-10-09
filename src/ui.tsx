@@ -29,6 +29,7 @@ const ICONS = {
   error: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9 9l6 6M15 9l-6 6',
   ttr: 'M4 17l5-5 4 4 7-8M15 8h5v5',
   calendar: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',
+  week: 'M4 5h16v15H4zM4 10h16M9 10v10M15 10v10',
   cloud: 'M7 18a4 4 0 0 1-.6-8A6 6 0 0 1 18 9.5a4.2 4.2 0 0 1-.5 8.5zM12 11v6M9.5 14.5L12 17l2.5-2.5',
   upload: 'M12 16V4M7 9l5-5 5 5M5 20h14'
 } as const;
