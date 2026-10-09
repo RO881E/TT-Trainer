@@ -84,7 +84,7 @@ export function recommendations(d: { matches: Match[]; opps: Opponent[]; knee: K
       recs.push({ prio: 2, title: `Schwach gegen ${k} (${b.w}:${b.n - b.w})`, text: `Materialtraining: Trainingspartner mit ${k} suchen; Schnittumkehr üben, Tempo- und Längenwechsel, nicht in Serien schupfen.` });
   for (const [k, b] of Object.entries(bilanz(d.matches, m => om.get(m.opponentId)?.style)))
     if (b.n >= 3 && pct(b) < 40)
-      recs.push({ prio: 3, title: `Schwach gegen Typ „${k}“ (${b.w}:${b.n - b.w})`, text: `In Verein B Matchspiel mit Aufgabe gegen ${k}-Spieler; Matchplan vorab im Gegnerprofil notieren.` });
+      recs.push({ prio: 3, title: `Schwach gegen Typ „${k}“ (${b.w}:${b.n - b.w})`, text: `Im Vereinstraining (Fr) Matchspiel mit Aufgabe gegen ${k}-Spieler; Matchplan vorab im Gegnerprofil notieren.` });
   const ss = setStats(d.matches);
   if (ss.c8.n >= 5 && pct(ss.c8) < 45)
     recs.push({ prio: 4, title: `Knappe Sätze nur ${pct(ss.c8)} %`, text: 'Satzende-Training: Spielformen ab 8:8, feste Aufschlagroutine, bestes Aufschlagmuster für knappe Phasen reservieren.' });

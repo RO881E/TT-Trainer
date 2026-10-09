@@ -138,9 +138,15 @@ li.duel { display: flex; gap: 10px; align-items: center; }
 .muted { color: var(--muted); font-size: .85rem; } .good { color: var(--good); } .bad { color: var(--bad); } .right { float: right; }
 .badge { background: var(--bad-bg); color: var(--bad); border-radius: 8px; padding: 2px 8px; margin-left: 6px; font-size: .72rem; font-weight: 700; white-space: nowrap; }
 .list { list-style: none; padding: 0; margin: 0; } .list li { padding: 10px 0; border-bottom: 1px solid var(--border); } .list li:last-child { border-bottom: 0; }
-.check-list { list-style: none; padding: 0; } .check-list li { padding: 8px 0 8px 26px; position: relative; border-bottom: 1px solid var(--border); }
+.check-list { list-style: none; padding: 0; margin: 0; } .check-list li { border-bottom: 1px solid var(--border); }
 .check-list li:last-child { border-bottom: 0; }
-.check-list li::before { content: ''; position: absolute; left: 2px; top: 11px; width: 12px; height: 12px; border: 2px solid var(--brand); border-radius: 50%; }
+.check-list .check { margin: 0; padding: 10px 0; font-size: .95rem; font-weight: 500; color: var(--text); gap: 12px; min-width: 0; }
+.check-list input { appearance: none; flex: none; width: 22px; height: 22px; border: 2px solid var(--brand); border-radius: 50%; margin: 0; background: transparent; padding: 0; display: grid; place-content: center; }
+.check-list input:checked { background: var(--brand); }
+.check-list input:checked::after { content: ''; width: 5px; height: 10px; border: solid var(--on-brand); border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px); }
+.check-list li.done .check { color: var(--muted); text-decoration: line-through; }
+.todo + .todo { margin-top: 6px; } .todo h3 { display: flex; justify-content: space-between; margin: 6px 0 2px; color: var(--text); font-size: .95rem; text-transform: none; letter-spacing: 0; }
+.todo h3 span { color: var(--muted); font-weight: 600; font-size: .8rem; }
 table { width: 100%; border-collapse: collapse; font-size: .9rem; } td, th { padding: 8px 4px; border-bottom: 1px solid var(--border); text-align: left; }
 tr:last-child td { border-bottom: 0; }
 .rec { border-left: 4px solid var(--brand); background: var(--surface-2); border-radius: 0 12px 12px 0; padding: 10px 12px; margin: 8px 0; } .rec p { margin-top: 3px; font-size: .88rem; color: var(--muted); }
@@ -153,3 +159,16 @@ tr:last-child td { border-bottom: 0; }
 .clock { font-size: 2.4rem; font-weight: 800; text-align: center; padding: 20px 16px; border-radius: var(--radius); background: var(--surface-2); margin: 10px 0; }
 .clock.work { background: var(--brand-soft); color: var(--brand); } .clock.rest { background: var(--warn-bg); color: var(--warn-text); } .clock small { font-size: .9rem; font-weight: 500; }
 .msg { color: var(--good); margin-top: 10px; font-weight: 600; } .result { font-size: 1.05rem; margin-top: 4px; }
+
+/* Termine */
+.fixture { display: flex; align-items: center; gap: 12px; }
+.fixture .date { width: 46px; text-align: center; background: var(--brand-soft); border-radius: 12px; padding: 6px 0; flex: none; }
+.fixture .date b { display: block; font-size: 1.15rem; line-height: 1.1; color: var(--brand); } .fixture .date small { font-size: .7rem; }
+.badge.home { background: var(--brand-soft); color: var(--brand); }
+label.file { display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px dashed var(--border); border-radius: 14px; padding: 18px; color: var(--brand); cursor: pointer; font-size: .95rem; }
+label.file input { display: none; }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 12px; }
+.week div { background: var(--surface-2); border-radius: 12px; padding: 8px 2px; text-align: center; border: 1px solid transparent; min-width: 0; }
+.week b { display: block; font-size: 1rem; margin: 2px 0; } .week span, .week i { display: block; font-size: .6rem; color: var(--muted); font-style: normal; }
+.week i { color: var(--accent); font-weight: 700; }
+.week .today { border-color: var(--brand); } .week .ok b { color: var(--good); } .week .miss b { color: var(--bad); }

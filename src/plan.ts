@@ -1,4 +1,4 @@
-import type { ErrCat } from './db';
+import type { ErrCat, SessionType } from './db';
 
 export const PLAYER = { name: 'Robert Winters', club: 'TS Frechen', league: '1. Bezirksklasse, Position 1', startTtr: 1552, goalTtr: 1870 };
 
@@ -41,14 +41,16 @@ export function rhythmFor(iso: string) {
 }
 export const MESO = '3 Wochen Belastung + 1 Woche Entlastung; ein technisches Hauptthema pro 4-Wochen-Block.';
 
-export const WEEK = [
-  { day: 'Montag', title: 'Verein A – Technik & System', items: ['Vorher 15 min Aufschläge', '15 min Einspielen', '45 min Hauptthema', '30 min Aufschlag/Rückschlag/3. Ball', '30 min Spielformen'] },
-  { day: 'Dienstag', title: 'Heim-Kraft mit Bändern', items: ['Siehe Heim-Krafteinheit'] },
-  { day: 'Mittwoch', title: 'Rad/Ausdauer', items: ['40–60 min locker', '10 min Mobilität'] },
-  { day: 'Donnerstag', title: 'Verein B – spielnah', items: ['20 min Einspielen', '40 min unregelmäßige Übungen', '60 min Matchspiel mit Aufgabe', '1× pro Woche Video für Liimba'] },
-  { day: 'Freitag', title: 'Heimeinheit 40 min', items: ['15 min Knie-Isometrie', '15 min Schatten-Beinarbeit', '10 min Mobilität'] },
-  { day: 'Samstag', title: 'Punktspiel/Turnier oder 2. Krafteinheit', items: ['Kohlenhydrate nach Spieltag-Regel'] },
-  { day: 'Sonntag', title: 'Punktspiel/Turnier oder 2. Krafteinheit', items: ['Kohlenhydrate nach Spieltag-Regel'] }
+export type DayKind = 'club' | 'home' | 'rest';
+/** Vereinstraining ist Mittwoch und Freitag. */
+export const WEEK: { day: string; title: string; kind: DayKind; type: SessionType | null; minutes: number; items: string[] }[] = [
+  { day: 'Montag', title: 'Heim-Kraft mit Bändern', kind: 'home', type: 'Heim-Kraft', minutes: 40, items: ['Knie: aktuelle Stufe', 'Kraftübungen mit Bändern, ca. 40 min', 'Übungsliste unter Mehr → Trainingsplan'] },
+  { day: 'Dienstag', title: 'Rad/Ausdauer', kind: 'home', type: 'Ausdauer', minutes: 50, items: ['40–60 min locker', '10 min Mobilität'] },
+  { day: 'Mittwoch', title: 'Vereinstraining A – Technik & System', kind: 'club', type: 'Verein A', minutes: 120, items: ['Vorher 15 min Aufschläge', '15 min Einspielen', '45 min Hauptthema', '30 min Aufschlag/Rückschlag/3. Ball', '30 min Spielformen'] },
+  { day: 'Donnerstag', title: 'Heimeinheit 40 min', kind: 'home', type: 'Heim 40', minutes: 40, items: ['15 min Knie-Isometrie', '15 min Schatten-Beinarbeit', '10 min Mobilität'] },
+  { day: 'Freitag', title: 'Vereinstraining B – spielnah', kind: 'club', type: 'Verein B', minutes: 120, items: ['20 min Einspielen', '40 min unregelmäßige Übungen', '60 min Matchspiel mit Aufgabe', '1× pro Woche Video für Liimba'] },
+  { day: 'Samstag', title: 'Punktspiel/Turnier oder 2. Krafteinheit', kind: 'rest', type: null, minutes: 0, items: ['Spieltermine siehe Mehr → Spieltermine'] },
+  { day: 'Sonntag', title: 'Erholung oder 2. Krafteinheit', kind: 'rest', type: null, minutes: 0, items: ['Locker bewegen, Mobilität'] }
 ];
 
 export const HOME_STRENGTH = [
@@ -88,5 +90,5 @@ export const DRILLS: Record<ErrCat, string> = {
   'Rückschlag': 'Verein A: 30-min-Block Rückschlag kurz/lang gegen wechselnde Aufschläge, Fokus Schnitt lesen',
   'RH': 'RH-Stufenplan: Block gegen Topspin, Serien zählen (Ziel aktuelle Stufe)',
   'VH': 'VH-Topspin gegen Unterschnitt und Block, unregelmäßig in Verein B',
-  'Stellung/Laufen': 'Schatten-Beinarbeit 15 min (Fr) + Side-Shuffle-Serien, Falkenberg-Übung'
+  'Stellung/Laufen': 'Schatten-Beinarbeit 15 min (Do) + Side-Shuffle-Serien, Falkenberg-Übung'
 };

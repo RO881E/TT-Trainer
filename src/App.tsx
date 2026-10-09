@@ -10,8 +10,10 @@ import Ttr from './pages/Ttr';
 import Checks from './pages/Checks';
 import Plan from './pages/Plan';
 import Backup from './pages/Backup';
+import Termine from './pages/Termine';
 import { db } from './db';
 import { currentTtr } from './stats';
+import { autoGist } from './gist';
 import { Icon, type IconName } from './ui';
 
 function useRoute() {
@@ -22,6 +24,7 @@ function useRoute() {
 }
 
 const MORE: { path: string; label: string; text: string; icon: IconName }[] = [
+  { path: '/termine', label: 'Spieltermine', text: 'Saisontermine aus myTischtennis (.ics)', icon: 'calendar' },
   { path: '/training', label: 'Training & Timer', text: 'Einheiten protokollieren, Intervall-Timer', icon: 'timer' },
   { path: '/koerper', label: 'Knie & Gewicht', text: 'SLDS, VISA-P und Gewichtsverlauf', icon: 'heart' },
   { path: '/ttr', label: 'TTR & Meilensteine', text: 'Verlauf, Ziele und TTR-Rechner', icon: 'target' },
@@ -39,21 +42,26 @@ const TABS: { path: string; label: string; icon: IconName }[] = [
 
 export default function App() {
   const r = useRoute();
+  useEffect(() => { void autoGist(); }, []);
   const ttr = currentTtr(useLiveQuery(() => db.ttr.toArray(), []) ?? []);
   const opp = r.match(/^\/gegner\/(\d+)$/);
   const edit = r.match(/^\/spiel\/(\d+)$/);
   const preset = r.match(/^\/spiel\/gegner\/(\d+)$/);
+  const termin = r.match(/^\/spiel\/termin\/(\d+)$/);
+  const fx = useLiveQuery(async () => (termin ? db.fixtures.get(+termin[1]) : undefined), [termin?.[1]]);
   const page = opp ? <OpponentDetail id={+opp[1]} />
     : edit ? <MatchForm key={edit[1]} editId={+edit[1]} /> : preset ? <MatchForm key={`p${preset[1]}`} presetOpp={+preset[1]} />
+    : termin ? (fx ? <MatchForm key={`t${termin[1]}`} presetDate={fx.date} /> : null)
+    
     : r === '/spiel' ? <MatchForm /> : r === '/gegner' ? <OpponentList /> : r === '/statistik' ? <Stats />
     : r === '/training' ? <Training /> : r === '/koerper' ? <Body /> : r === '/ttr' ? <Ttr />
-    : r === '/checks' ? <Checks /> : r === '/plan' ? <Plan /> : r === '/backup' ? <Backup />
+    : r === '/termine' ? <Termine /> : r === '/checks' ? <Checks /> : r === '/plan' ? <Plan /> : r === '/backup' ? <Backup />
     : r === '/mehr' ? <nav className="menu">{MORE.map(m => <a key={m.path} href={`#${m.path}`}>
         <span className="menu-icon"><Icon name={m.icon} /></span><span><b>{m.label}</b><small>{m.text}</small></span></a>)}</nav>
     : <Today />;
   const parent = opp ? '/gegner' : edit ? '/gegner' : MORE.some(m => m.path === r) ? '/mehr' : undefined;
-  const title = opp ? 'Gegnerprofil' : edit ? 'Spiel bearbeiten' : preset ? 'Spiel erfassen' : TITLES[r] ?? 'TT-Trainer';
-  const section = opp || edit ? '/gegner' : preset ? '/spiel' : parent ?? r;
+  const title = opp ? 'Gegnerprofil' : edit ? 'Spiel bearbeiten' : preset || termin ? 'Spiel erfassen' : TITLES[r] ?? 'TT-Trainer';
+  const section = opp || edit ? '/gegner' : preset || termin ? '/spiel' : parent ?? r;
   const active = (p: string) => p === section;
   return <>
     <header className="top">
