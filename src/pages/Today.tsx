@@ -7,6 +7,9 @@ import { currentPhase, currentTtr, daysAgo, recommendations, todayIso, weight7 }
 import { daysBetween, fmt, nextStichtag, prevStichtag } from '../ttr';
 import { Card, Tiles } from '../ui';
 import { storageInfo } from '../backup';
+import { focusFor, locate } from '../cycle';
+import { STUFEN } from '../cyclePlan';
+import { useCycle } from '../useCycle';
 import { FixtureRow } from './Termine';
 
 /** Abhakbare Liste, der Stand wird je Tag lokal gespeichert. */
@@ -24,6 +27,7 @@ export default function Today() {
     weight: await db.weight.toArray(), ttr: await db.ttr.toArray(), fixtures: await db.fixtures.orderBy('date').toArray(),
     last: (await db.settings.get('lastBackup'))?.value as string | undefined
   }), []);
+  const { state: cycle } = useCycle();
   const done = (useLiveQuery(async () => (await db.settings.get(`done:${t}`))?.value as string[] | undefined, [t]) ?? []);
   const [persisted, setPersisted] = useState<boolean | null>(null);
   useEffect(() => { storageInfo().then(s => setPersisted(s.persisted)); }, []);
@@ -32,7 +36,9 @@ export default function Today() {
   }, []);
   if (!data) return null;
   const toggle = (id: string) => db.settings.put({ key: `done:${t}`, value: done.includes(id) ? done.filter(x => x !== id) : [...done, id] });
-  const plan = dayPlan(t, data.fixtures);
+  const pos = cycle ? locate(cycle, t) : undefined;
+  const focus = pos && focusFor(pos);
+  const plan = dayPlan(t, data.fixtures, focus);
   const rh = rhythmFor(t);
   const ttr = currentTtr(data.ttr);
   const ph = currentPhase(ttr);
@@ -54,6 +60,8 @@ export default function Today() {
       <p>{ph.steps}</p>
       <p className="muted">Nächster Q-TTR-Stichtag {fmt(st)} · in {daysBetween(t, st)} Tagen</p>
     </section>
+    {focus && <a className="focus" href="#/zyklen"><small>Hauptthema · Woche {focus.week}/{focus.weeks} · {STUFEN[focus.stufe].label}</small><b>{focus.title}</b></a>}
+    {pos && 'upcoming' in pos && <a className="focus" href="#/zyklen"><small>Trainingsplan startet in {pos.startsInDays} Tagen</small><b>{pos.upcoming.block.title}</b></a>}
     <Card title="Heute" aside={plan.kind === 'match' ? <span className="badge home">Spieltag</span> : undefined}>
       <Checklist title={plan.training.title} items={plan.training.items} done={done} toggle={toggle} />
       <Checklist title={plan.nutrition.title} items={plan.nutrition.items} done={done} toggle={toggle} />

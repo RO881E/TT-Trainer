@@ -12,6 +12,7 @@ import Plan from './pages/Plan';
 import Backup from './pages/Backup';
 import Termine from './pages/Termine';
 import Week from './pages/Week';
+import Cycles from './pages/Cycles';
 import { db } from './db';
 import { currentTtr } from './stats';
 import { autoGist } from './gist';
@@ -25,6 +26,7 @@ function useRoute() {
 }
 
 const MORE: { path: string; label: string; text: string; icon: IconName }[] = [
+  { path: '/zyklen', label: 'Trainingszyklen', text: '3-Jahres-Plan mit Blöcken und Tests', icon: 'cycle' },
   { path: '/woche', label: 'Wochenansicht', text: 'Soll/Ist, Belastung, Spiele und Verlauf', icon: 'week' },
   { path: '/termine', label: 'Spieltermine', text: 'Saisontermine aus myTischtennis (.ics)', icon: 'calendar' },
   { path: '/training', label: 'Training & Timer', text: 'Einheiten protokollieren, Intervall-Timer', icon: 'timer' },
@@ -58,7 +60,7 @@ export default function App() {
     
     : r === '/spiel' ? <MatchForm /> : r === '/gegner' ? <OpponentList /> : r === '/statistik' ? <Stats />
     : r === '/training' ? <Training /> : r === '/koerper' ? <Body /> : r === '/ttr' ? <Ttr />
-    : week ? <Week key={week[1] ?? 'now'} anchor={week[1]} /> : r === '/termine' ? <Termine /> : r === '/checks' ? <Checks /> : r === '/plan' ? <Plan /> : r === '/backup' ? <Backup />
+    : week ? <Week key={week[1] ?? 'now'} anchor={week[1]} /> : r === '/zyklen' ? <Cycles /> : r === '/termine' ? <Termine /> : r === '/checks' ? <Checks /> : r === '/plan' ? <Plan /> : r === '/backup' ? <Backup />
     : r === '/mehr' ? <nav className="menu">{MORE.map(m => <a key={m.path} href={`#${m.path}`}>
         <span className="menu-icon"><Icon name={m.icon} /></span><span><b>{m.label}</b><small>{m.text}</small></span></a>)}</nav>
     : <Today />;
