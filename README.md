@@ -28,6 +28,9 @@ Persönliche Trainings-, Spiel- und Scouting-App für Tischtennis. Läuft offlin
 ## Spieltermine aus myTischtennis
 Mehr → Spieltermine → die Saisontermine als Kalenderdatei (.ics) aus myTischtennis auswählen. Die Termine erscheinen unter „Nächste Spiele“ auf Heute und in der Wochenansicht. Am Spieltag zeigt Heute den Spieltag-Plan statt des Trainings.
 
+## Trainingszyklen (3-Jahres-Plan)
+Mehr → Trainingszyklen: 30 Blöcke über 3 Jahre (je 4–8 Wochen, Wochenstufen Einführen, Festigen, Variation, Test). Heute zeigt das aktuelle Hauptthema und setzt die Aufgaben für Mittwoch (Hauptthema), Freitag (spielnah) und Donnerstag (zuhause) in den Tagesplan. Blöcke lassen sich verschieben und verlängern, Testergebnisse werden pro Block eingetragen. Der Inhalt steht in `src/cyclePlan.ts`, die Logik in `src/cycle.ts`.
+
 ## Tests
     npm test           # Vitest: TTR-Formel, Statistik, ICS-Import, Tagesplan, Matchplan, CSV
 

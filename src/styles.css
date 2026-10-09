@@ -76,11 +76,11 @@ button.danger { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 4
 
 /* Einklappbare Abschnitte */
 .fold { padding: 0; overflow: hidden; }
-.fold summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: 2px; padding: 15px 44px 15px 16px; font-weight: 700; position: relative; }
-.fold summary::-webkit-details-marker { display: none; }
-.fold summary::after { content: ''; position: absolute; right: 18px; top: 50%; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-70%) rotate(45deg); transition: transform .15s; }
-.fold[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
-.fold summary small { font-weight: 500; }
+.fold > summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: 2px; padding: 15px 44px 15px 16px; font-weight: 700; position: relative; }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::after { content: ''; position: absolute; right: 18px; top: 50%; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-70%) rotate(45deg); transition: transform .15s; }
+.fold[open] > summary::after { transform: translateY(-30%) rotate(-135deg); }
+.fold > summary small { font-weight: 500; }
 .fold-body { padding: 0 16px 16px; }
 details:not(.fold) summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
 
@@ -197,3 +197,14 @@ label.file input { display: none; }
 .trend div { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; cursor: pointer; min-width: 0; }
 .trend i { display: block; width: 100%; background: var(--brand-soft); border-radius: 6px 6px 2px 2px; min-height: 3px; } .trend .now i { background: var(--brand); }
 .trend b { font-size: .65rem; color: var(--muted); } .trend small { font-size: .65rem; }
+
+/* Zyklen */
+a.focus { display: block; background: var(--brand-soft); color: var(--text); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 12px; border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent); }
+a.focus b { display: block; font-size: 1.05rem; color: var(--brand); } a.focus small { color: var(--muted); font-weight: 600; }
+.timeline { list-style: none; padding: 0; margin: 0; } .timeline li { border-bottom: 1px solid var(--border); } .timeline li:last-child { border-bottom: 0; }
+.timeline li.now { background: var(--brand-soft); border-radius: 12px; border-bottom-color: transparent; }
+.timeline summary { display: flex; align-items: center; gap: 10px; padding: 12px 6px; cursor: pointer; list-style: none; }
+.timeline summary::-webkit-details-marker { display: none; }
+.timeline .when { width: 52px; font-weight: 700; font-size: .85rem; flex: none; } .timeline .when small { font-weight: 500; }
+.block-details { padding: 0 6px 8px; font-size: .9rem; } .block-details h3 { margin: 10px 0 2px; } .block-details ul { margin: 2px 0; padding-left: 18px; }
+.timeline .row { padding: 0 6px 10px; } .timeline .row button { margin: 0; padding: 6px 10px; font-size: .8rem; }

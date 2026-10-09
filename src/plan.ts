@@ -16,8 +16,8 @@ export const MILESTONES = [
 
 export const PHASES = [
   { n: 1, name: 'Phase 1 (bis Mai 2027)', to: 1612, steps: '1552 → 1565 → 1600 → 1612', weight: 112,
-    focus: 'RH gegen Topspin, Rückschlag, Aufschlagmuster A–C, mehr Turniere',
-    checks: ['Q-TTR ≥ 1600', 'Bilanz gegen 1500–1650 ≥ 55 %', 'RH-Block gegen Topspin ≥ 10 in Folge', 'VISA-P ≥ 70', 'Gewicht ≤ 112 kg'] },
+    focus: 'RH-Topspin im Ballwechsel (gegen Block und Konter), Rückschlag, Aufschlagmuster A–C, mehr Turniere',
+    checks: ['Q-TTR ≥ 1600', 'Bilanz gegen 1500–1650 ≥ 55 %', 'RH-Topspin gegen aktiven Block ≥ 15 in Folge', 'VISA-P ≥ 70', 'Gewicht ≤ 112 kg'] },
   { n: 2, name: 'Phase 2 (Saison 2027/28)', to: 1670, steps: '1612 → 1650 → 1670', weight: 103,
     focus: 'Bezirksliga, Gegentopspin, RH-Topspin, 2. Aufschlagsystem',
     checks: ['Q-TTR ≥ 1650 an zwei Stichtagen', 'Bezirksliga-Bilanz ≥ 50 %', '≥ 50 % Punktgewinn nach eigenem Aufschlag', 'VISA-P ≥ 80', '100–103 kg'] },
@@ -67,11 +67,6 @@ export const KNEE_STAGES = [
   { n: 4, name: 'Sportspezifisch', how: 'TT-spezifische Sprung- und Richtungswechsel', next: '' }
 ];
 export const KNEE_MONITOR = 'Wöchentlich Single-Leg-Decline-Squat-Schmerz 0–10, alle 6–8 Wochen VISA-P.';
-
-export const BH_STAGES = [
-  'RH-Block gegen Topspin (Ziel: 20 in Folge)', 'Aktiver Block/Konter mit Platzierung (15 in Folge)',
-  'Übergang RH zu VH (8/10)', 'RH-Topspin gegen Topspin (6/10)'
-];
 
 export const SERVES = [
   { id: 'A', text: 'Kurzer Seit-Unterschnitt in VH-Mitte → langer Schupf → VH-Topspin' },
