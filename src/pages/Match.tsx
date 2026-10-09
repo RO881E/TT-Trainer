@@ -1,35 +1,23 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { db, emptyServe, ERR_CATS, type ErrCat, type Match, type MatchKind, type Opponent } from '../db';
+import { parseSets } from '../sets';
 import { matchPlan } from '../matchplan';
 import OpponentPicker from '../OpponentPicker';
 import { currentTtr, materialOf, todayIso } from '../stats';
 import { Card, Fold, Num, PlanList, Segmented, Stepper, Txt, go } from '../ui';
 
-/** "11:8 9:11" oder Kurznotation "8 -9 +12" (positiv = gewonnen, Zahl = Punkte des Verlierers) */
-export function parseSets(s: string): [number, number][] {
-  return s.trim().split(/[\s,;]+/).filter(Boolean).flatMap((tok): [number, number][] => {
-    const m = tok.match(/^(\d+)[:\-](\d+)$/);
-    if (m) return [[+m[1], +m[2]]];
-    if (/^[+-]?\d+$/.test(tok)) {
-      const n = Math.abs(+tok), win = !tok.startsWith('-'), hi = Math.max(11, n + 2);
-      return [win ? [hi, n] : [n, hi]];
-    }
-    return [];
-  });
-}
-
 const KINDS = [['Punktspiel', 'Punktspiel'], ['Turnier', 'Turnier'], ['Pokal', 'Pokal']] as const;
 const setsToText = (sets: [number, number][]) => sets.map(([a, b]) => `${a}:${b}`).join(' ');
 
-export default function MatchForm({ editId, presetOpp }: { editId?: number; presetOpp?: number }) {
+export default function MatchForm({ editId, presetOpp, presetDate }: { editId?: number; presetOpp?: number; presetDate?: string }) {
   const opps = useLiveQuery(() => db.opponents.orderBy('name').toArray(), []) ?? [];
   const ttrLogs = useLiveQuery(() => db.ttr.toArray(), []) ?? [];
   const all = useLiveQuery(() => db.matches.toArray(), []) ?? [];
   const editing = useLiveQuery(() => (editId ? db.matches.get(editId) : undefined), [editId]);
   const [oppId, setOppId] = useState<number | ''>('');
   const [newName, setNewName] = useState('');
-  const [date, setDate] = useState(todayIso());
+  const [date, setDate] = useState(presetDate ?? todayIso());
   const [kind, setKind] = useState<MatchKind>('Punktspiel');
   const [myTtr, setMyTtr] = useState<number>();
   const [oppTtr, setOppTtr] = useState<number>();

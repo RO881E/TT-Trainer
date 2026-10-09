@@ -1,7 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useRef, useState } from 'react';
 import { db, type SessionType } from '../db';
+import { weekdayIndex } from '../day';
+import { WEEK } from '../plan';
 import { daysAgo, todayIso } from '../stats';
+import { weekView } from '../week';
 import { fmt } from '../ttr';
 import { Card, Num, Txt } from '../ui';
 
@@ -56,8 +59,16 @@ const TYPES: SessionType[] = ['Verein A', 'Verein B', 'Heim-Kraft', 'Ausdauer', 
 export default function Training() {
   const list = useLiveQuery(() => db.sessions.orderBy('date').reverse().limit(15).toArray(), []) ?? [];
   const month = useLiveQuery(() => db.sessions.where('date').aboveOrEqual(daysAgo(28)).toArray(), []) ?? [];
-  const [f, setF] = useState({ date: todayIso(), type: 'Verein A' as SessionType, minutes: 120, rpe: 6, theme: '', notes: '' });
+  const fixtures = useLiveQuery(() => db.fixtures.toArray(), []) ?? [];
+  const planned = WEEK[weekdayIndex(todayIso())];
+  const [f, setF] = useState({ date: todayIso(), type: (planned.type ?? 'Verein A') as SessionType, minutes: planned.minutes || 60, rpe: 6, theme: '', notes: '' });
+  const week = weekView(todayIso(), month, fixtures);
   return <>
+    <Card title="Diese Woche" aside={<small>{week.ist} von {week.soll} min</small>}>
+      <div className="week">{week.days.map(d => <div key={d.date} className={`${d.today ? 'today' : ''} ${d.past && d.soll && d.ist >= d.soll * 0.75 ? 'ok' : d.past && d.soll ? 'miss' : ''}`} title={d.title}>
+        <small>{d.day}</small><b>{d.ist || '–'}</b><span>{d.soll ? `Soll ${d.soll}` : d.fixtures.length ? 'Spiel' : 'frei'}</span>{d.fixtures.length > 0 && d.soll > 0 && <i>Spiel</i>}</div>)}</div>
+      <div className="progress"><i style={{ width: `${Math.min(100, week.soll ? (100 * week.ist) / week.soll : 0)}%` }} /></div>
+    </Card>
     <Timer />
     <Card title="Einheit protokollieren">
       <div className="row"><Txt label="Datum" type="date" value={f.date} onChange={v => setF({ ...f, date: v })} />

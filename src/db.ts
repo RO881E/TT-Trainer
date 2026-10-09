@@ -27,12 +27,16 @@ export interface KneeLog { id?: number; date: string; slds: number; visaP?: numb
 export interface WeightLog { id?: number; date: string; kg: number; waist?: number }
 export interface TtrLog { id?: number; date: string; value: number; isQ: boolean }
 export interface Check { id?: number; date: string; kind: 'Monat' | 'Quartal'; data: Record<string, string | number | boolean | undefined> }
+export interface Fixture {
+  id?: number; uid: string; date: string; time?: string; title: string; location?: string; description?: string;
+  home?: boolean; opponentTeam?: string;
+}
 export interface Setting { key: string; value: unknown }
 
 export const db = new Dexie('tt-trainer') as Dexie & {
   opponents: EntityTable<Opponent, 'id'>; events: EntityTable<TTEvent, 'id'>; matches: EntityTable<Match, 'id'>;
   sessions: EntityTable<Session, 'id'>; knee: EntityTable<KneeLog, 'id'>; weight: EntityTable<WeightLog, 'id'>;
-  ttr: EntityTable<TtrLog, 'id'>; checks: EntityTable<Check, 'id'>; settings: EntityTable<Setting, 'key'>;
+  ttr: EntityTable<TtrLog, 'id'>; checks: EntityTable<Check, 'id'>; settings: EntityTable<Setting, 'key'>; fixtures: EntityTable<Fixture, 'id'>;
 };
 
 db.version(1).stores({
@@ -46,6 +50,7 @@ db.version(1).stores({
   checks: '++id, date, kind',
   settings: 'key'
 });
+db.version(2).stores({ fixtures: '++id, date, uid' });
 // Spätere Schemaänderungen: db.version(2).stores({...}).upgrade(tx => ...) – nie Version 1 ändern.
 
 export const emptyServe = (): Match['serve'] => ({ A: { used: 0, won: 0 }, B: { used: 0, won: 0 }, C: { used: 0, won: 0 } });
