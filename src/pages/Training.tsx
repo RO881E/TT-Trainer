@@ -64,9 +64,10 @@ export default function Training() {
   const [f, setF] = useState({ date: todayIso(), type: (planned.type ?? 'Verein A') as SessionType, minutes: planned.minutes || 60, rpe: 6, theme: '', notes: '' });
   const week = weekView(todayIso(), month, fixtures);
   return <>
-    <Card title="Diese Woche" aside={<small>{week.ist} von {week.soll} min</small>}>
+    <Card title="Diese Woche" aside={<a href="#/woche">Details</a>}>
       <div className="week">{week.days.map(d => <div key={d.date} className={`${d.today ? 'today' : ''} ${d.past && d.soll && d.ist >= d.soll * 0.75 ? 'ok' : d.past && d.soll ? 'miss' : ''}`} title={d.title}>
         <small>{d.day}</small><b>{d.ist || '–'}</b><span>{d.soll ? `Soll ${d.soll}` : d.fixtures.length ? 'Spiel' : 'frei'}</span>{d.fixtures.length > 0 && d.soll > 0 && <i>Spiel</i>}</div>)}</div>
+      <small>{week.ist} von {week.soll} min</small>
       <div className="progress"><i style={{ width: `${Math.min(100, week.soll ? (100 * week.ist) / week.soll : 0)}%` }} /></div>
     </Card>
     <Timer />

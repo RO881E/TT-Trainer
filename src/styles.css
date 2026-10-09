@@ -172,3 +172,28 @@ label.file input { display: none; }
 .week b { display: block; font-size: 1rem; margin: 2px 0; } .week span, .week i { display: block; font-size: .6rem; color: var(--muted); font-style: normal; }
 .week i { color: var(--accent); font-weight: 700; }
 .week .today { border-color: var(--brand); } .week .ok b { color: var(--good); } .week .miss b { color: var(--bad); }
+
+/* Wochenansicht */
+.center { text-align: center; margin-bottom: 12px; }
+.weeknav { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px; margin-bottom: 12px; box-shadow: var(--shadow); }
+.weeknav div { text-align: center; } .weeknav b { font-size: 1.1rem; display: block; }
+.weeknav .icon-btn { padding: 12px; color: var(--text); } .weeknav .next svg { transform: rotate(180deg); }
+.day { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; box-shadow: var(--shadow); }
+.day.today { border-color: var(--brand); box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 25%, transparent); }
+.day header { display: flex; align-items: center; gap: 12px; }
+.day .dow { width: 46px; text-align: center; background: var(--surface-2); border-radius: 12px; padding: 6px 0; flex: none; }
+.day.ok .dow { background: var(--brand-soft); color: var(--brand); } .day.miss .dow { background: var(--bad-bg); color: var(--bad); }
+.day .dow b { display: block; } .day .dow small { font-size: .68rem; }
+.day .mark { display: grid; place-items: center; }
+.day .line { display: flex; align-items: center; gap: 8px; font-size: .9rem; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+.day .line .icon { flex: none; color: var(--brand); } .day .line .icon-btn { margin-left: auto; padding: 4px; }
+.quick { margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--border); } .quick button { margin: 4px 6px 0 0; padding: 8px 12px; }
+.quick .primary { width: auto; margin: 4px 6px 0 0; padding: 8px 12px; } .quick-form { margin-top: 6px; } .quick-form .primary { width: 100%; padding: 12px; }
+.area { display: flex; align-items: center; gap: 8px; margin: 10px 0; } .area span { width: 148px; font-size: .85rem; } .area b { width: 40px; text-align: right; font-size: .85rem; }
+.area .track { flex: 1; height: 12px; background: var(--surface-2); border-radius: 6px; position: relative; }
+.area .track i { display: block; height: 100%; background: var(--brand); border-radius: 6px; }
+.area .track u { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--accent); border-radius: 2px; text-decoration: none; }
+.trend { display: flex; gap: 6px; align-items: flex-end; height: 130px; }
+.trend div { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; cursor: pointer; min-width: 0; }
+.trend i { display: block; width: 100%; background: var(--brand-soft); border-radius: 6px 6px 2px 2px; min-height: 3px; } .trend .now i { background: var(--brand); }
+.trend b { font-size: .65rem; color: var(--muted); } .trend small { font-size: .65rem; }
